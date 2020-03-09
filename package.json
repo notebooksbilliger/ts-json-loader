@@ -29,7 +29,7 @@
         "fs-extra": "^8.1.0"
     },
     "devDependencies": {
-        "@nbb.com/npmbuildtools": "^1.3.0",
+        "@nbb.com/npmbuildtools": "^1.4.0",
         "@types/fs-extra": "^8.1.0",
         "@types/mocha": "^7.0.1",
         "mocha": "^7.1.0"
