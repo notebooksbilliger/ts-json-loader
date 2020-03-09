@@ -15,11 +15,16 @@
         "JSON"
     ],
     "author": "Thorben Wolkersdorfer <thorbenw@nbb.com> (https://www.notebooksbilliger.de/)",
-    "directories": {
-        "test": "./test",
-        "doc": "./doc"
-    },
     "license": "MIT",
+    "repository": "github:notebooksbilliger/ts-json-loader",
+    "readme": "README.adoc",
+    "engines": {
+        "node": ">=8.17.0"
+    },
+    "directories": {
+        "doc": "./doc",
+        "test": "./test"
+    },
     "dependencies": {
         "fs-extra": "^8.1.0"
     },
