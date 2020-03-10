@@ -8,7 +8,7 @@
         "test": "node ./node_modules/mocha/bin/_mocha --timeout 999999 --colors ./test/_suite.js",
         "postinstall": "node -e \"require('@nbb.com/npmbuildtools/lib/check-global-deps').CheckGlobalDeps(['typescript'])\"",
         "prepare": "tsc",
-        "postpack": "node -e \"require('@nbb.com/npmbuildtools').PostPack([ [ './node_modules/@nbb.com/npmbuildtools/lib/clean-package-elements', 'scripts.postpack', 'scripts.test', 'scripts.pretest', 'scripts.postinstall', 'directories.test' ] ], true)\""
+        "postpack": "node -e \"require('@nbb.com/npmbuildtools').PostPack([ [ './node_modules/@nbb.com/npmbuildtools/lib/clean-package-elements', 'scripts.postpack', 'scripts.test', 'scripts.pretest', 'scripts.postinstall', 'directories.test' ], [ './node_modules/@nbb.com/npmbuildtools/lib/create-fallback-readme' ] ], { verbose: true })\""
     },
     "keywords": [
         "typescript",
@@ -26,7 +26,7 @@
         "test": "./test"
     },
     "dependencies": {
-        "@nbb.com/npmbuildtools": "^1.4.0",
+        "@nbb.com/npmbuildtools": "^2.0.0",
         "fs-extra": "^8.1.0"
     },
     "devDependencies": {

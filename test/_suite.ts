@@ -497,7 +497,7 @@ describe(`${thisPackage.name} Readme should be up to date`, function() {
         var result;
         btools.ConsoleCaptureStart();
         try {
-            result = btools.CheckReadme(packagePath, readmeFileName, null, true);
+            result = btools.CheckReadme(packagePath, readmeFileName, { updateTimestamp: true });
             btools.ConsoleCaptureStop();
         } catch(err) {
             btools.ConsoleCaptureStop();

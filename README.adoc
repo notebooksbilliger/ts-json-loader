@@ -12,6 +12,13 @@ ts-json-loader
 
 Load object properties from JSON files to existing objects
 
+Installation
+------------
+[source,bash]
+----
+npm install "@nbb.com/ts-json-loader"
+----
+
 Provides functionality to load property values from a JSON file and apply it to an existing object, primarily meant to serve as a aconvenient configuration loader.
 
 Usage
