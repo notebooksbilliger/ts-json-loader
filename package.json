@@ -1,12 +1,12 @@
 {
     "name": "@nbb.com/ts-json-loader",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Load object properties from JSON files to existing objects",
     "main": "index.js",
     "scripts": {
         "pretest": "tsc",
         "test": "node ./node_modules/mocha/bin/_mocha --timeout 999999 --colors ./test/_suite.js",
-        "postinstall": "node ./node_modules/@nbb.com/npmbuildtools/lib/check-global-deps typescript",
+        "postinstall": "node -e \"require('@nbb.com/npmbuildtools/lib/check-global-deps').CheckGlobalDeps(['typescript'])\"",
         "prepare": "tsc",
         "postpack": "node -e \"require('@nbb.com/npmbuildtools').PostPack([ [ './node_modules/@nbb.com/npmbuildtools/lib/clean-package-elements', 'scripts.postpack', 'scripts.test', 'scripts.pretest', 'directories.test' ] ], true)\""
     },
