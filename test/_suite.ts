@@ -3,7 +3,7 @@ import * as fs from 'fs-extra';
 import * as path from 'path';
 import * as assert from 'assert';
 import * as tsjson from '../index';
-const btools = require('@nbb.com/npmbuildtools');
+import * as btools from '@nbb.com/npmbuildtools';
 const thisPackage = require('../package.json');
 
 if (btools.TerminalCanBlock) {
