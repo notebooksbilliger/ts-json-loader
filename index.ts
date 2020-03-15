@@ -1,4 +1,5 @@
 import * as fs from 'fs-extra';
+import btools from '@nbb.com/npmbuildtools';
 
 /**Actions to take in specific situations `Load()` may face.*/
 export enum WriteOnLoad {
@@ -15,9 +16,10 @@ export class LoadOptions {
     /**Write behaviour of `Load()`,
      * see `WriteOnLoad`.*/
     writeOnLoad?: WriteOnLoad;
-    /**If set to `true`, `Load()`
-     * will emit verbose information to `stdout`.*/
+    /** **Deprecated**, use `consoleOptions` member instead! */
     verboseLogging?: boolean;
+    /**Controls how much information will be emitted to `stdout`. */
+    consoleOptions?: btools.ConsoleOptions;
     /**Controls whether to `thow` an `Error` if the requested
      * file culd not be found (even if it has been created
      * according to `writeOnLoad`)
@@ -55,14 +57,37 @@ export class LoadOptions {
  * which returns `any`.
  */
 export function Load<T extends object>(file: string, object: T, options?: LoadOptions): T {
-    var objectKeys = Object.keys(object);
-    if (objectKeys.length < 1) { throw Error(`Object cannot be loaded because it doesn't contain any properties.`); }
 
     if (!options) { options = new LoadOptions(); }
 
     var optionsKeys: string[] = Object.keys(options);
-    options.writeOnLoad = optionsKeys.includes('writeOnLoad') ? <WriteOnLoad>options.writeOnLoad : WriteOnLoad.None;
     options.verboseLogging = optionsKeys.includes('verboseLogging') ? options.verboseLogging : false;
+
+    options.consoleOptions = btools.ConsolePushOptions(options.consoleOptions);
+    if (optionsKeys.includes('verboseLogging')) {
+        console.warn(`The 'verboseLogging' member of the 'LoadOptions' class is deprecated and may be removed with the next major version update. Use the 'consoleOptions' member instead.`)
+        if (options.verboseLogging && !options.consoleOptions.verbose) {
+            btools.ConsolePopOptions()
+            options.consoleOptions.verbose = true;
+            options.consoleOptions = btools.ConsolePushOptions(options.consoleOptions);
+        }
+    }
+
+    var result;
+    try {
+        result = load(file, object, options);
+    } finally {
+        btools.ConsolePopOptions();
+    }
+    return result;
+}
+
+function load<T extends object>(file: string, object: T, options: LoadOptions): T {
+    var objectKeys = Object.keys(object);
+    if (objectKeys.length < 1) { throw Error(`Object cannot be loaded because it doesn't contain any properties.`); }
+
+    var optionsKeys: string[] = Object.keys(options);
+    options.writeOnLoad = optionsKeys.includes('writeOnLoad') ? <WriteOnLoad>options.writeOnLoad : WriteOnLoad.None;
     options.failOnFileNotFound = optionsKeys.includes('failOnFileNotFound') ? options.failOnFileNotFound : true;
     options.failOnObjectIsDefault = optionsKeys.includes('failOnObjectIsDefault') ? options.failOnObjectIsDefault : false;
 
@@ -120,18 +145,18 @@ export function Load<T extends object>(file: string, object: T, options?: LoadOp
                 var resultValue = result[key];
                 var objectValue = Reflect.get(object, key);
                 if (resultValue === objectValue) {
-                    if (options?.verboseLogging) { console.log(`Value '${objectValue}' of Property '${key}' in object remains unchanged due to value '${resultValue}' from file '${file}' being equal.`); }
+                    console.debug(`Value '${objectValue}' of Property '${key}' in object remains unchanged due to value '${resultValue}' from file '${file}' being equal.`);
                 } else {
-                    if (options?.verboseLogging) { console.log(`Value of Property '${key}' is set from '${objectValue}' to '${resultValue}'.`); }
+                    console.debug(`Value of Property '${key}' is set from '${objectValue}' to '${resultValue}'.`);
                     Reflect.set(object, key, resultValue);
                     onlyDefault = false;
                 }
             } else {
-                if (options?.verboseLogging) { console.log(`Property '${key}' wasn't found in object and will be skipped.`); }
+                console.debug(`Property '${key}' wasn't found in object and will be skipped.`);
                 onlyDefault = false;
             }
         } else {
-            if (options?.verboseLogging) { console.log(`Value for property '${key}' wasn't found in file '${file}'.`); }
+            console.debug(`Value for property '${key}' wasn't found in file '${file}'.`);
             needsUpdate = true;
         }
     });
@@ -146,16 +171,16 @@ export function Load<T extends object>(file: string, object: T, options?: LoadOp
 
     if (needsUpdate) {
         if (options.writeOnLoad & WriteOnLoad.Update) {
-            if (options?.verboseLogging) { console.log(`Updating file '${file}' due to missing values.`); }
+            console.info(`Updating file '${file}' due to missing values.`);
             fs.writeFileSync(file, JSON.stringify(object, null, 4), { encoding: 'utf8' });
         } else {
-            if (options?.verboseLogging) { console.warn(`Values are missing in file '${file}', but flag WriteOnLoad.Update has not been set in options.writeOnLoad.`); }
+            console.warn(`Values are missing in file '${file}', but flag WriteOnLoad.Update has not been set in options.writeOnLoad.`);
         }
     } else {
         if (options.writeOnLoad & WriteOnLoad.Update) {
-            if (options?.verboseLogging) { console.log(`File '${file}' doesn't need to be updated.`); }
+            console.debug(`File '${file}' doesn't need to be updated.`);
         } else {
-            if (options?.verboseLogging) { console.log(`File '${file}' won't be updated.`); }
+            console.info(`File '${file}' won't be updated.`);
         }
     }
 

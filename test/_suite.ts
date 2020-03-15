@@ -3,7 +3,7 @@ import * as fs from 'fs-extra';
 import * as path from 'path';
 import * as assert from 'assert';
 import * as tsjson from '../index';
-import * as btools from '@nbb.com/npmbuildtools';
+import btools from '@nbb.com/npmbuildtools';
 const thisPackage = require('../package.json');
 
 if (btools.TerminalCanBlock) {
@@ -50,8 +50,8 @@ describe(`${thisPackage.name} Load() tests`, function () {
         }
         assert.equal(fs.existsSync(jsonFile), false, `File '${jsonFile}' should not exist`);
         assert.equal(target, undefined, `target should still be undefined`);
-        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines`);
-        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines`);
+        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines:${os.EOL}${btools.stdout.join('')}`);
+        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines:${os.EOL}${btools.stderr.join('')}`);
 
         done();
     });
@@ -73,8 +73,8 @@ describe(`${thisPackage.name} Load() tests`, function () {
         }
         assert.equal(fs.existsSync(jsonFile), true, `File '${jsonFile}' should still exist`);
         assert.equal(target, undefined, `target should still be undefined`);
-        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines`);
-        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines`);
+        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines:${os.EOL}${btools.stdout.join('')}`);
+        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines:${os.EOL}${btools.stderr.join('')}`);
 
         done();
     });
@@ -86,7 +86,7 @@ describe(`${thisPackage.name} Load() tests`, function () {
         var target: TestClass1 | undefined = undefined;
         btools.ConsoleCaptureStart();
         try {
-            target = tsjson.Load(jsonFile, new TestClass1(), { verboseLogging: true, failOnFileNotFound: false });
+            target = tsjson.Load(jsonFile, new TestClass1(), { failOnFileNotFound: false, consoleOptions: { logLevel: 'debug' } });
             btools.ConsoleCaptureStop();
         } catch (error) {
             btools.ConsoleCaptureStop();
@@ -95,10 +95,12 @@ describe(`${thisPackage.name} Load() tests`, function () {
         assert.equal(fs.existsSync(jsonFile), false, `File '${jsonFile}' should not exist`);
         assert.notEqual(target, undefined, `target should not be undefined`);
         assert.equal(target.StringValue, '', `target's StringValue property should still be an empty string`);
-        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines`);
-        assert.equal(btools.stderr.length, 2, `stderr should contain exact number of lines`);
-        assert.equal(btools.stderr[0], `Settings file '${jsonFile}' could not be found.\n`, `stderr first  line should contain`);
-        assert.equal(btools.stderr[1], 'Object contains only default values.\n', `stderr second line should contain`);
+        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines:${os.EOL}${btools.stdout.join('')}`);
+        assert.equal(btools.stderr.length, 2, `stderr should contain exact number of lines:${os.EOL}${btools.stderr.join('')}`);
+        // @ts-ignore
+        assert.equal(btools.stderr[0].plain('error'), `Settings file '${jsonFile}' could not be found.${os.EOL}`, `stderr first  line should contain`);
+        // @ts-ignore
+        assert.equal(btools.stderr[1].plain('error'), `Object contains only default values.${os.EOL}`, `stderr second line should contain`);
 
         done();
     });
@@ -118,8 +120,8 @@ describe(`${thisPackage.name} Load() tests`, function () {
         }
         assert.equal(fs.existsSync(jsonFile), false, `File '${jsonFile}' should not exist`);
         assert.equal(target, undefined, `target should still be undefined`);
-        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines`);
-        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines`);
+        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines:${os.EOL}${btools.stdout.join('')}`);
+        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines:${os.EOL}${btools.stderr.join('')}`);
 
         done();
     });
@@ -140,8 +142,8 @@ describe(`${thisPackage.name} Load() tests`, function () {
         }
         assert.equal(fs.existsSync(jsonFile), false, `File '${jsonFile}' should not exist`);
         assert.equal(target, undefined, `target should still be undefined`);
-        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines`);
-        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines`);
+        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines:${os.EOL}${btools.stdout.join('')}`);
+        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines:${os.EOL}${btools.stderr.join('')}`);
 
         done();
     });
@@ -162,8 +164,8 @@ describe(`${thisPackage.name} Load() tests`, function () {
         }
         assert.equal(fs.existsSync(jsonFile), false, `File '${jsonFile}' should not exist`);
         assert.equal(target, undefined, `target should still be undefined`);
-        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines`);
-        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines`);
+        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines:${os.EOL}${btools.stdout.join('')}`);
+        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines:${os.EOL}${btools.stderr.join('')}`);
 
         done();
     });
@@ -183,9 +185,10 @@ describe(`${thisPackage.name} Load() tests`, function () {
         }
         assert.equal(fs.existsSync(jsonFile), false, `File '${jsonFile}' should not exist`);
         assert.equal(target, undefined, `target should still be undefined`);
-        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines`);
-        assert.equal(btools.stderr.length, 1, `stderr should contain exact number of lines`);
-        assert.equal(btools.stderr[0], `Settings file '${jsonFile}' could not be found.\n`, `stderr first  line should contain`);
+        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines:${os.EOL}${btools.stdout.join('')}`);
+        assert.equal(btools.stderr.length, 1, `stderr should contain exact number of lines:${os.EOL}${btools.stderr.join('')}`);
+        // @ts-ignore
+        assert.equal(btools.stderr[0].plain('error'), `Settings file '${jsonFile}' could not be found.${os.EOL}`, `stderr first  line should contain`);
 
         done();
     });
@@ -206,9 +209,10 @@ describe(`${thisPackage.name} Load() tests`, function () {
         }
         assert.equal(fs.existsSync(jsonFile), false, `File '${jsonFile}' should not exist`);
         assert.equal(target, undefined, `target should still be undefined`);
-        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines`);
-        assert.equal(btools.stderr.length, 1, `stderr should contain exact number of lines`);
-        assert.equal(btools.stderr[0], `Settings file '${jsonFile}' could not be found.\n`, `stderr first  line should contain`);
+        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines:${os.EOL}${btools.stdout.join('')}`);
+        assert.equal(btools.stderr.length, 1, `stderr should contain exact number of lines:${os.EOL}${btools.stderr.join('')}`);
+        // @ts-ignore
+        assert.equal(btools.stderr[0].plain('error'), `Settings file '${jsonFile}' could not be found.${os.EOL}`, `stderr first  line should contain`);
 
         done();
     });
@@ -229,9 +233,10 @@ describe(`${thisPackage.name} Load() tests`, function () {
         }
         assert.equal(fs.existsSync(jsonFile), false, `File '${jsonFile}' should not exist`);
         assert.equal(target, undefined, `target should still be undefined`);
-        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines`);
-        assert.equal(btools.stderr.length, 1, `stderr should contain exact number of lines`);
-        assert.equal(btools.stderr[0], `Settings file '${jsonFile}' could not be found.\n`, `stderr first  line should contain`);
+        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines:${os.EOL}${btools.stdout.join('')}`);
+        assert.equal(btools.stderr.length, 1, `stderr should contain exact number of lines:${os.EOL}${btools.stderr.join('')}`);
+        // @ts-ignore
+        assert.equal(btools.stderr[0].plain('error'), `Settings file '${jsonFile}' could not be found.${os.EOL}`, `stderr first  line should contain`);
 
         done();
     });
@@ -251,8 +256,8 @@ describe(`${thisPackage.name} Load() tests`, function () {
         }
         assert.equal(fs.existsSync(jsonFile), true, `File '${jsonFile}' should exist`);
         assert.equal(target, undefined, `target should still be undefined`);
-        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines`);
-        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines`);
+        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines:${os.EOL}${btools.stdout.join('')}`);
+        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines:${os.EOL}${btools.stderr.join('')}`);
 
         done();
     });
@@ -271,10 +276,12 @@ describe(`${thisPackage.name} Load() tests`, function () {
         }
         assert.equal(fs.existsSync(jsonFile), true, `File '${jsonFile}' should exist`);
         assert.notEqual(target, undefined, `target should not be undefined`);
-        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines`);
-        assert.equal(btools.stderr.length, 2, `stderr should contain exact number of lines`);
-        assert.equal(btools.stderr[0], `Settings file '${jsonFile}' didn't exist, but a scaffolding has been created.\n`, `stderr first  line should contain`);
-        assert.equal(btools.stderr[1], 'Object contains only default values.\n', `stderr second line should contain`);
+        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines:${os.EOL}${btools.stdout.join('')}`);
+        assert.equal(btools.stderr.length, 2, `stderr should contain exact number of lines:${os.EOL}${btools.stderr.join('')}`);
+        // @ts-ignore
+        assert.equal(btools.stderr[0].plain('error'), `Settings file '${jsonFile}' didn't exist, but a scaffolding has been created.${os.EOL}`, `stderr first  line should contain`);
+        // @ts-ignore
+        assert.equal(btools.stderr[1].plain('error'), `Object contains only default values.${os.EOL}`, `stderr second line should contain`);
 
         done();
     });
@@ -290,7 +297,7 @@ describe(`${thisPackage.name} Load() tests`, function () {
         var target: TestClass1 | undefined = undefined;
         btools.ConsoleCaptureStart();
         try {
-            target = tsjson.Load(jsonFile, new TestClass1(), { verboseLogging: true });
+            target = tsjson.Load(jsonFile, new TestClass1(), { consoleOptions: { logLevel: 'debug' } });
             btools.ConsoleCaptureStop();
         } catch (error) {
             btools.ConsoleCaptureStop();
@@ -298,11 +305,16 @@ describe(`${thisPackage.name} Load() tests`, function () {
         }
         assert.equal(fs.existsSync(jsonFile), true, `File '${jsonFile}' should exist`);
         assert.notEqual(target, undefined, `target should not be undefined`);
-        assert.equal(btools.stdout.length, 2, `stdout should contain exact number of lines`);
-        assert.equal(btools.stdout[0], `Value '' of Property 'StringValue' in object remains unchanged due to value '' from file '${jsonFile}' being equal.\n`, `stdout first  line should contain`);
-        assert.equal(btools.stdout[1], `File '${jsonFile}' won't be updated.\n`, `stdout second line should contain`);
-        assert.equal(btools.stderr.length, 1, `stderr should contain exact number of lines`);
-        assert.equal(btools.stderr[0], 'Object contains only default values.\n', `stderr first  line should contain`);
+        assert.equal(btools.stdout.length, btools.DebugMode ? 2 : 1, `stdout should contain exact number of lines:${os.EOL}${btools.stdout.join('')}`);
+        if (btools.DebugMode) {
+            // @ts-ignore
+            assert.equal(btools.stdout[0].plain('debug'), `Value '' of Property 'StringValue' in object remains unchanged due to value '' from file '${jsonFile}' being equal.${os.EOL}`, `stdout first  line should contain`);
+        }
+        // @ts-ignore
+        assert.equal(btools.stdout[btools.DebugMode ? 1 : 0].plain('info'), `File '${jsonFile}' won't be updated.${os.EOL}`, `stdout second line should contain`);
+        assert.equal(btools.stderr.length, 1, `stderr should contain exact number of lines:${os.EOL}${btools.stderr.join('')}`);
+        // @ts-ignore
+        assert.equal(btools.stderr[0].plain('error'), `Object contains only default values.${os.EOL}`, `stderr first  line should contain`);
 
         done();
     });
@@ -327,8 +339,8 @@ describe(`${thisPackage.name} Load() tests`, function () {
         }
         assert.equal(fs.existsSync(jsonFile), true, `File '${jsonFile}' should exist`);
         assert.equal(target, undefined, `target should still be undefined`);
-        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines`);
-        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines`);
+        assert.equal(btools.stdout.length, 0, `stdout shouldn't contain any lines:${os.EOL}${btools.stdout.join('')}`);
+        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines:${os.EOL}${btools.stderr.join('')}`);
 
         done();
     });
@@ -347,7 +359,7 @@ describe(`${thisPackage.name} Load() tests`, function () {
         var target: TestClass1 | undefined = undefined;
         btools.ConsoleCaptureStart();
         try {
-            target = tsjson.Load(jsonFile, new TestClass1(), { verboseLogging: true });
+            target = tsjson.Load(jsonFile, new TestClass1(), { consoleOptions: { logLevel: 'debug' } });
             btools.ConsoleCaptureStop();
         } catch (error) {
             btools.ConsoleCaptureStop();
@@ -355,10 +367,14 @@ describe(`${thisPackage.name} Load() tests`, function () {
         }
         assert.equal(fs.existsSync(jsonFile), true, `File '${jsonFile}' should exist`);
         assert.notEqual(target, undefined, `target should not be undefined`);
-        assert.equal(btools.stdout.length, 2, `stdout should contain exact number of lines`);
-        assert.equal(btools.stdout[0], `Value of Property 'StringValue' is set from '' to '${target.StringValue}'.\n`, `stdout first  line should contain`);
-        assert.equal(btools.stdout[1], `File '${jsonFile}' won't be updated.\n`, `stdout second line should contain`);
-        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines`);
+        assert.equal(btools.stdout.length, btools.DebugMode ? 2 : 1, `stdout should contain exact number of lines:${os.EOL}${btools.stdout.join('')}`);
+        if (btools.DebugMode) {
+            // @ts-ignore
+            assert.equal(btools.stdout[0].plain('debug'), `Value of Property 'StringValue' is set from '' to '${target.StringValue}'.${os.EOL}`, `stdout first  line should contain`);
+        }
+        // @ts-ignore
+        assert.equal(btools.stdout[btools.DebugMode ? 1 : 0].plain('info'), `File '${jsonFile}' won't be updated.${os.EOL}`, `stdout second line should contain`);
+        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines:${os.EOL}${btools.stderr.join('')}`);
 
         done();
     });
@@ -377,7 +393,7 @@ describe(`${thisPackage.name} Load() tests`, function () {
         var target: TestClass1 | undefined = undefined;
         btools.ConsoleCaptureStart();
         try {
-            target = tsjson.Load(jsonFile, new TestClass1(), { verboseLogging: true });
+            target = tsjson.Load(jsonFile, new TestClass1(), { consoleOptions: { logLevel: 'debug' } });
             btools.ConsoleCaptureStop();
         } catch (error) {
             btools.ConsoleCaptureStop();
@@ -385,11 +401,16 @@ describe(`${thisPackage.name} Load() tests`, function () {
         }
         assert.equal(fs.existsSync(jsonFile), true, `File '${jsonFile}' should exist`);
         assert.notEqual(target, undefined, `target should not be undefined`);
-        assert.equal(btools.stdout.length, 3, `stdout should contain exact number of lines`);
-        assert.equal(btools.stdout[0], `Value of Property 'StringValue' is set from '' to '${target.StringValue}'.\n`, `stdout first  line should contain`);
-        assert.equal(btools.stdout[1], `Property 'NumberValue' wasn't found in object and will be skipped.\n`, `stdout second line should contain`);
-        assert.equal(btools.stdout[2], `File '${jsonFile}' won't be updated.\n`, `stdout third  line should contain`);
-        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines`);
+        assert.equal(btools.stdout.length, btools.DebugMode ? 3 : 1, `stdout should contain exact number of lines:${os.EOL}${btools.stdout.join('')}`);
+        if (btools.DebugMode) {
+            // @ts-ignore
+            assert.equal(btools.stdout[0].plain('debug'), `Value of Property 'StringValue' is set from '' to '${target.StringValue}'.${os.EOL}`, `stdout first  line should contain`);
+            // @ts-ignore
+            assert.equal(btools.stdout[1].plain('debug'), `Property 'NumberValue' wasn't found in object and will be skipped.${os.EOL}`, `stdout second line should contain`);
+        }
+        // @ts-ignore
+        assert.equal(btools.stdout[btools.DebugMode ? 2 : 0].plain('info'), `File '${jsonFile}' won't be updated.${os.EOL}`, `stdout third  line should contain`);
+        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines:${os.EOL}${btools.stderr.join('')}`);
 
         done();
     });
@@ -408,7 +429,7 @@ describe(`${thisPackage.name} Load() tests`, function () {
         var target: TestClass1 | undefined = undefined;
         btools.ConsoleCaptureStart();
         try {
-            target = tsjson.Load(jsonFile, new TestClass2(), { verboseLogging: true });
+            target = tsjson.Load(jsonFile, new TestClass2(), { consoleOptions: { logLevel: 'debug' } });
             btools.ConsoleCaptureStop();
         } catch (error) {
             btools.ConsoleCaptureStop();
@@ -416,11 +437,16 @@ describe(`${thisPackage.name} Load() tests`, function () {
         }
         assert.equal(fs.existsSync(jsonFile), true, `File '${jsonFile}' should exist`);
         assert.notEqual(target, undefined, `target should not be undefined`);
-        assert.equal(btools.stdout.length, 2, `stdout should contain exact number of lines`);
-        assert.equal(btools.stdout[0], `Value of Property 'StringValue' is set from '' to '${target.StringValue}'.\n`, `stdout first  line should contain`);
-        assert.equal(btools.stdout[1], `Value for property 'NumberValue' wasn't found in file '${jsonFile}'.\n`, `stdout second line should contain`);
-        assert.equal(btools.stderr.length, 1, `stderr should contain exact number of lines`);
-        assert.equal(btools.stderr[0], `Values are missing in file '${jsonFile}', but flag WriteOnLoad.Update has not been set in options.writeOnLoad.\n`, `stderr first  line should contain`);
+        assert.equal(btools.stdout.length, btools.DebugMode ? 3 : 1, `stdout should contain exact number of lines:${os.EOL}${btools.stdout.join('')}`);
+        if (btools.DebugMode) {
+            // @ts-ignore
+            assert.equal(btools.stdout[0].plain('debug'), `Value of Property 'StringValue' is set from '' to '${target.StringValue}'.${os.EOL}`, `stdout first  line should contain`);
+            // @ts-ignore
+            assert.equal(btools.stdout[1].plain('debug'), `Value for property 'NumberValue' wasn't found in file '${jsonFile}'.${os.EOL}`, `stdout second line should contain`);
+        }
+        // @ts-ignore
+        assert.equal(btools.stdout[btools.DebugMode ? 2 : 0].plain('warn'), `Values are missing in file '${jsonFile}', but flag WriteOnLoad.Update has not been set in options.writeOnLoad.${os.EOL}`, `stderr first  line should contain`);
+        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines:${os.EOL}${btools.stderr.join('')}`);
 
         done();
     });
@@ -439,7 +465,7 @@ describe(`${thisPackage.name} Load() tests`, function () {
         var target: TestClass1 | undefined = undefined;
         btools.ConsoleCaptureStart();
         try {
-            target = tsjson.Load(jsonFile, new TestClass1(), { verboseLogging: true, writeOnLoad: tsjson.WriteOnLoad.Update });
+            target = tsjson.Load(jsonFile, new TestClass1(), { writeOnLoad: tsjson.WriteOnLoad.Update, consoleOptions: { logLevel: 'debug' } });
             btools.ConsoleCaptureStop();
         } catch (error) {
             btools.ConsoleCaptureStop();
@@ -447,11 +473,16 @@ describe(`${thisPackage.name} Load() tests`, function () {
         }
         assert.equal(fs.existsSync(jsonFile), true, `File '${jsonFile}' should exist`);
         assert.notEqual(target, undefined, `target should not be undefined`);
-        assert.equal(btools.stdout.length, 3, `stdout should contain exact number of lines`);
-        assert.equal(btools.stdout[0], `Value of Property 'StringValue' is set from '' to '${target.StringValue}'.\n`, `stdout first  line should contain`);
-        assert.equal(btools.stdout[1], `Property 'NumberValue' wasn't found in object and will be skipped.\n`, `stdout second line should contain`);
-        assert.equal(btools.stdout[2], `File '${jsonFile}' doesn't need to be updated.\n`, `stdout third  line should contain`);
-        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines`);
+        assert.equal(btools.stdout.length, btools.DebugMode ? 3 : 0, `stdout should contain exact number of lines:${os.EOL}${btools.stdout.join('')}`);
+        if (btools.DebugMode) {
+            // @ts-ignore
+            assert.equal(btools.stdout[0].plain('debug'), `Value of Property 'StringValue' is set from '' to '${target.StringValue}'.${os.EOL}`, `stdout first  line should contain`);
+            // @ts-ignore
+            assert.equal(btools.stdout[1].plain('debug'), `Property 'NumberValue' wasn't found in object and will be skipped.${os.EOL}`, `stdout second line should contain`);
+            // @ts-ignore
+            assert.equal(btools.stdout[2].plain('debug'), `File '${jsonFile}' doesn't need to be updated.${os.EOL}`, `stdout third  line should contain`);
+        }
+        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines:${os.EOL}${btools.stderr.join('')}`);
 
         done();
     });
@@ -470,7 +501,7 @@ describe(`${thisPackage.name} Load() tests`, function () {
         var target: TestClass1 | undefined = undefined;
         btools.ConsoleCaptureStart();
         try {
-            target = tsjson.Load(jsonFile, new TestClass2(), { verboseLogging: true, writeOnLoad: tsjson.WriteOnLoad.Update });
+            target = tsjson.Load(jsonFile, new TestClass2(), { writeOnLoad: tsjson.WriteOnLoad.Update, consoleOptions: { logLevel: 'debug' } });
             btools.ConsoleCaptureStop();
         } catch (error) {
             btools.ConsoleCaptureStop();
@@ -478,11 +509,16 @@ describe(`${thisPackage.name} Load() tests`, function () {
         }
         assert.equal(fs.existsSync(jsonFile), true, `File '${jsonFile}' should exist`);
         assert.notEqual(target, undefined, `target should not be undefined`);
-        assert.equal(btools.stdout.length, 3, `stdout should contain exact number of lines`);
-        assert.equal(btools.stdout[0], `Value of Property 'StringValue' is set from '' to '${target.StringValue}'.\n`, `stdout first  line should contain`);
-        assert.equal(btools.stdout[1], `Value for property 'NumberValue' wasn't found in file '${jsonFile}'.\n`, `stdout second line should contain`);
-        assert.equal(btools.stdout[2], `Updating file '${jsonFile}' due to missing values.\n`, `stdout third  line should contain`);
-        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines`);
+        assert.equal(btools.stdout.length, btools.DebugMode ? 3 : 1, `stdout should contain exact number of lines:${os.EOL}${btools.stdout.join('')}`);
+        if (btools.DebugMode) {
+            // @ts-ignore
+            assert.equal(btools.stdout[0].plain('debug'), `Value of Property 'StringValue' is set from '' to '${target.StringValue}'.${os.EOL}`, `stdout first  line should contain`);
+            // @ts-ignore
+            assert.equal(btools.stdout[1].plain('debug'), `Value for property 'NumberValue' wasn't found in file '${jsonFile}'.${os.EOL}`, `stdout second line should contain`);
+        }
+        // @ts-ignore
+        assert.equal(btools.stdout[btools.DebugMode ? 2 : 0].plain('info'), `Updating file '${jsonFile}' due to missing values.${os.EOL}`, `stdout third  line should contain`);
+        assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines:${os.EOL}${btools.stderr.join('')}`);
 
         done();
     });
@@ -505,7 +541,7 @@ describe(`${thisPackage.name} Readme should be up to date`, function() {
         }
 
         if (result) {
-            assert.fail(`Readme file '${path.join(packagePath, readmeFileName)}' needs to be updated:\n${result}`);
+            assert.fail(`Readme file '${path.join(packagePath, readmeFileName)}' needs to be updated:${os.EOL}${result}`);
         }
 
         done();
