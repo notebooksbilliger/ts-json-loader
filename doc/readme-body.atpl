@@ -1,4 +1,6 @@
-Provides functionality to load property values from a JSON file and apply it to an existing object, primarily meant to serve as a aconvenient configuration loader.
+Provides functionality to load property values from a JSON file and apply it to
+an existing object, primarily meant to serve as a aconvenient configuration
+loader.
 
 Usage
 -----

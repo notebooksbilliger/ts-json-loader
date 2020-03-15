@@ -3,8 +3,8 @@ ts-json-loader
 :Author: Thorben Wolkersdorfer
 :Email: <thorbenw@nbb.com>
 :AuthorUrl: https://www.notebooksbilliger.de/
-:Date: 2020-03-09
-:Revision: 1.0.2
+:Date: 2020-03-15
+:Revision: 1.0.4
 :License: MIT
 
 - Version {revision}
@@ -12,7 +12,16 @@ ts-json-loader
 
 Load object properties from JSON files to existing objects
 
-Provides functionality to load property values from a JSON file and apply it to an existing object, primarily meant to serve as a aconvenient configuration loader.
+Installation
+------------
+[source,bash]
+----
+npm install "@nbb.com/ts-json-loader"
+----
+
+Provides functionality to load property values from a JSON file and apply it to
+an existing object, primarily meant to serve as a aconvenient configuration
+loader.
 
 Usage
 -----
@@ -25,5 +34,4 @@ class MySettings {
 }
 
 var mySettings = tsjson.Load('./mySettings.json', new MySettings(), { writeOnLoad: tsjson.WriteOnLoad.Create, failOnFileNotFound: false });
-
 ----
