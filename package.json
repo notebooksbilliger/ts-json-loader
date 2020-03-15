@@ -26,7 +26,7 @@
         "test": "./test"
     },
     "dependencies": {
-        "@nbb.com/npmbuildtools": "^2.2.0",
+        "@nbb.com/npmbuildtools": "^2.2.2",
         "fs-extra": "^8.1.0"
     },
     "devDependencies": {
