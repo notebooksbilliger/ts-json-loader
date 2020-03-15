@@ -174,7 +174,7 @@ function load<T extends object>(file: string, object: T, options: LoadOptions): 
             console.info(`Updating file '${file}' due to missing values.`);
             fs.writeFileSync(file, JSON.stringify(object, null, 4), { encoding: 'utf8' });
         } else {
-            console.warn(`Values are missing in file '${file}', but flag WriteOnLoad.Update has not been set in options.writeOnLoad.`);
+            console.info(`Values are missing in file '${file}', but flag WriteOnLoad.Update has not been set in options.writeOnLoad.`);
         }
     } else {
         if (options.writeOnLoad & WriteOnLoad.Update) {

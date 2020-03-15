@@ -445,7 +445,7 @@ describe(`${thisPackage.name} Load() tests`, function () {
             assert.equal(btools.stdout[1].plain('debug'), `Value for property 'NumberValue' wasn't found in file '${jsonFile}'.${os.EOL}`, `stdout second line should contain`);
         }
         // @ts-ignore
-        assert.equal(btools.stdout[btools.DebugMode ? 2 : 0].plain('warn'), `Values are missing in file '${jsonFile}', but flag WriteOnLoad.Update has not been set in options.writeOnLoad.${os.EOL}`, `stderr first  line should contain`);
+        assert.equal(btools.stdout[btools.DebugMode ? 2 : 0].plain('info'), `Values are missing in file '${jsonFile}', but flag WriteOnLoad.Update has not been set in options.writeOnLoad.${os.EOL}`, `stderr first  line should contain`);
         assert.equal(btools.stderr.length, 0, `stderr shouldn't contain any lines:${os.EOL}${btools.stderr.join('')}`);
 
         done();
