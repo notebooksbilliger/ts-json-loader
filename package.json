@@ -1,6 +1,6 @@
 {
     "name": "@nbb.com/ts-json-loader",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Load object properties from JSON files to existing objects",
     "main": "index.js",
     "scripts": {
@@ -8,7 +8,7 @@
         "test": "node ./node_modules/mocha/bin/_mocha --timeout 999999 --colors ./test/_suite.js",
         "postinstall": "node -e \"require('@nbb.com/npmbuildtools/lib/check-global-deps').CheckGlobalDeps(['typescript'])\"",
         "prepare": "tsc",
-        "postpack": "node -e \"require('@nbb.com/npmbuildtools').PostPack([ [ './node_modules/@nbb.com/npmbuildtools/lib/clean-package-elements', 'scripts.postpack', 'scripts.test', 'scripts.pretest', 'scripts.postinstall', 'directories.test' ], [ './node_modules/@nbb.com/npmbuildtools/lib/create-fallback-readme' ] ], { verbose: true })\""
+        "postpack": "node -e \"require('@nbb.com/npmbuildtools').PostPack([ [ './node_modules/@nbb.com/npmbuildtools/lib/clean-package-elements', 'scripts.postpack', 'scripts.test', 'scripts.pretest', 'scripts.postinstall', 'directories.test' ], [ './node_modules/@nbb.com/npmbuildtools/lib/create-fallback-readme' ] ], { logLevel: 'verbose' })\""
     },
     "keywords": [
         "typescript",
@@ -26,12 +26,13 @@
         "test": "./test"
     },
     "dependencies": {
-        "@nbb.com/npmbuildtools": "^2.2.2",
+        "@nbb.com/npmbuildtools": "^2.2.6",
         "fs-extra": "^8.1.0"
     },
     "devDependencies": {
         "@types/fs-extra": "^8.1.0",
         "@types/mocha": "^7.0.1",
-        "mocha": "^7.1.0"
+        "@types/node": "^13.9.2",
+        "mocha": "^7.1.1"
     }
 }

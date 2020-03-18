@@ -1,6 +1,7 @@
 node_modules
 *.tgz
 NPM_TARBALL
+README.md
 *.d.ts
 *.js
 *.js.map
