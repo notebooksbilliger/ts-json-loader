@@ -1,6 +1,6 @@
 {
     "name": "@nbb.com/ts-json-loader",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Load object properties from JSON files to existing objects",
     "main": "index.js",
     "scripts": {
