@@ -26,13 +26,13 @@
         "test": "./test"
     },
     "dependencies": {
-        "@nbb.com/npmbuildtools": "^2.2.2",
+        "@nbb.com/npmbuildtools": "^2.2.6",
         "fs-extra": "^8.1.0"
     },
     "devDependencies": {
         "@types/fs-extra": "^8.1.0",
         "@types/mocha": "^7.0.1",
-        "@types/node": "^13.9.1",
-        "mocha": "^7.1.0"
+        "@types/node": "^13.9.2",
+        "mocha": "^7.1.1"
     }
 }
