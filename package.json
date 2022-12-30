@@ -33,6 +33,6 @@
         "@types/fs-extra": "^8.1.0",
         "@types/mocha": "^7.0.1",
         "@types/node": "^13.9.2",
-        "mocha": "^7.1.1"
+        "mocha": "^10.2.0"
     }
 }
